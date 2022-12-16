@@ -1,44 +1,40 @@
-import React, { Component } from 'react';
+import { useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 
-class App extends Component {
-  constructor(props){
-    super(props)
-    // init state attribute here
-    this.state = {
-      fullname: "",
-      email: "",
-      password: ""
-    }
-  }
-   
-  handleOnChange = (e) => {
+function App() {
+  const [state, setState] = useState({
+    fullname: "",
+    email: "",
+    paswoord: "",
+  })
+
+  const handleOnChange = (e) => {
     // setState here
-    this.setState ({
-      ...this.state,
+    setState({
+      ...state,
       [e.target.name]: e.target.value
     }) 
+    console.log(state);
   }
 
-  handleOnSubmit = (e) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault()
     //print state value with console.log here
-    console.log(this.state);
+    console.log(state);
   }
 
-  render(){
     return (
       <Container>
         <Row 
           className="d-flex align-items-center justify-content-center vh-100">
           <Col md="6">
-          <Form onSubmit={this.handleOnSubmit}>
+          <Form onSubmit={handleOnSubmit}>
             <div className="text-center h3">Register</div>
             <Form.Group className="mb-3" controlId="formFullName">
               <Form.Label>Full Name</Form.Label>
               <Form.Control 
-                onChange={this.handleOnChange} 
-                value={this.state.fullname}
+                onChange={handleOnChange} 
+                value={state.fullname}
                 name="fullname" size="sm" type="text" 
                 placeholder="Enter Full Name" />
             </Form.Group>
@@ -46,8 +42,8 @@ class App extends Component {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control 
-                onChange={this.handleOnChange} 
-                value={this.state.email}
+                onChange={handleOnChange} 
+                value={state.email}
                 name="email" size="sm" type="email" 
                 placeholder="Enter email" />
             </Form.Group>
@@ -55,8 +51,8 @@ class App extends Component {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control 
-                onChange={this.handleOnChange} 
-                value={this.state.password}
+                onChange={handleOnChange} 
+                value={state.password}
                 name="password" size="sm" type="password" 
                 placeholder="Password" />
             </Form.Group>
@@ -69,7 +65,6 @@ class App extends Component {
         </Row>
       </Container>
     )
-  }
 }
 
 export default App;
