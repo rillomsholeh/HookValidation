@@ -1,70 +1,77 @@
-import { useState } from 'react'
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import React, { Component } from "react";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
-function App() {
-  const [state, setState] = useState({
-    fullname: "",
-    email: "",
-    paswoord: "",
-  })
+import Welcome from "./Welcome";
+import GuestGreeting from "./GuestGreeting";
 
-  const handleOnChange = (e) => {
-    // setState here
-    setState({
-      ...state,
-      [e.target.name]: e.target.value
-    }) 
-    console.log(state);
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLogin: false,
+      user: {
+        email: "",
+        password: "",
+      },
+    };
   }
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
-    //print state value with console.log here
-    console.log(state);
+  //Create method DidMount inside it can print "App Component Did Mount" & print state value here...
+  componentDidMount() {
+    console.log("app components did mounts");
+    console.log(this.state);
   }
 
+  //Create method DidUpdate inside it can print "App Component Did Update" & print state value here...
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    this.setState({
+      isLogin: true,
+      user: {
+        email,
+        password,
+      },
+    });
+    console.log(this.state);
+  };
+
+  render() {
     return (
-      <Container>
-        <Row 
-          className="d-flex align-items-center justify-content-center vh-100">
-          <Col md="6">
-          <Form onSubmit={handleOnSubmit}>
-            <div className="text-center h3">Register</div>
-            <Form.Group className="mb-3" controlId="formFullName">
-              <Form.Label>Full Name</Form.Label>
-              <Form.Control 
-                onChange={handleOnChange} 
-                value={state.fullname}
-                name="fullname" size="sm" type="text" 
-                placeholder="Enter Full Name" />
-            </Form.Group>
+      <div>
+        {this.state.isLogin ? (
+          <Welcome />
+        ) : (
+          <>
+            <GuestGreeting />
+            <Container>
+              <Row className="d-flex justify-content-center mt-5">
+                <Col md="4">
+                  <Form onSubmit={this.handleOnSubmit}>
+                    <div className="text-center h5">Login</div>
 
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control 
-                onChange={handleOnChange} 
-                value={state.email}
-                name="email" size="sm" type="email" 
-                placeholder="Enter email" />
-            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control id="email" name="email" size="sm" type="email" placeholder="Enter email" />
+                    </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control 
-                onChange={handleOnChange} 
-                value={state.password}
-                name="password" size="sm" type="password" 
-                placeholder="Password" />
-            </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control id="password" name="password" size="sm" type="password" placeholder="Password" />
+                    </Form.Group>
 
-            <Button variant="primary" type="submit" size="sm">
-              Submit
-            </Button>
-          </Form>
-          </Col>
-        </Row>
-      </Container>
-    )
+                    <Button variant="primary" type="submit" size="sm">
+                      Submit
+                    </Button>
+                  </Form>
+                </Col>
+              </Row>
+            </Container>
+          </>
+        )}
+      </div>
+    );
+  }
 }
-
-export default App;
